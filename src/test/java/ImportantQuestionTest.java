@@ -1,12 +1,6 @@
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import practicum.scooter.MainPage;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,9 +8,7 @@ import java.util.Collection;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
-public class ImportantQuestionTest {
-    private WebDriver webDriver;
-    private MainPage mainPage;
+public class ImportantQuestionTest extends BaseTest {
     private final String questionText;
     private final String expectedAnswer;
 
@@ -27,7 +19,7 @@ public class ImportantQuestionTest {
 
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
-        return Arrays.asList(new Object[][] {
+        return Arrays.asList(new Object[][]{
                 {"Сколько это стоит? И как оплатить?", "Сутки — 400 рублей. Оплата курьеру — наличными или картой."},
                 {"Хочу сразу несколько самокатов! Так можно?", "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим."},
                 {"Как рассчитывается время аренды?", "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30."},
@@ -39,26 +31,11 @@ public class ImportantQuestionTest {
         });
     }
 
-    @Before
-    public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\chromedriver.exe");
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
-        webDriver = new ChromeDriver(options);
-        webDriver.manage().timeouts().implicitlyWait(3, java.util.concurrent.TimeUnit.SECONDS);
-        mainPage = new MainPage(webDriver);
-        mainPage.open();
-    }
-
     @Test
     public void testImportantQuestion() {
+        mainPage.cookie();
         mainPage.scrollToBlock();
         String actualAnswer = mainPage.findQuestionClickAndGetAnswer(questionText);
-        assertEquals("Ответ не совпадает с ожидаемым",expectedAnswer, actualAnswer);
-    }
-
-    @After
-    public void tearDown() {
-        webDriver.quit();
+        assertEquals("Ответ не совпадает с ожидаемым", expectedAnswer, actualAnswer);
     }
 }

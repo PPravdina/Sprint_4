@@ -2,7 +2,6 @@ package practicum.scooter;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.junit.Assert.assertTrue;
@@ -50,9 +49,9 @@ public class OrderPage {
         //выбираем метро и ждем появления списка
         webDriver.findElement(metroChoose).click();
         WebDriverWait wait = new WebDriverWait(webDriver, 3);
-        WebElement stationElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//div[@class='Order_Text__2broi' and text()='"+ station +"']")));
+        WebElement stationElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//div[@class='Order_Text__2broi' and text()='" + station + "']")));
         // Скроллим до нужной станции и выбираем ее
-        ((JavascriptExecutor)webDriver).executeScript("arguments[0].scrollIntoView();", stationElement);
+        ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", stationElement);
         stationElement.click();
         /* отдадочная инфа
         String nameValue = webDriver.findElement(nameInput).getAttribute("value");
@@ -75,6 +74,7 @@ public class OrderPage {
         new WebDriverWait(webDriver, 3).until(ExpectedConditions.visibilityOfElementLocated(secondPartForm));
         assertTrue("Переход на вторую часть форму не осуществлен", webDriver.findElement(secondPartForm).isDisplayed());
     }
+
     //сначала хотела разбить заполнение на несколько блоков, но посчитала, что это лишнее. С другой стороны в допах было написать тест для ошибок при заполнении формы и тут детализация бы помогла
     public void fillOutSecondPart(String date, String rentPeriod, String color, String comment) {
         //заполнили дату - рукописный ввод подходит
@@ -85,7 +85,7 @@ public class OrderPage {
         By rentPeriodOption = By.xpath(".//div[@class='Dropdown-option' and text()='" + rentPeriod + "']");
         WebDriverWait wait = new WebDriverWait(webDriver, 3);
         WebElement rentPeriodElement = wait.until(ExpectedConditions.visibilityOfElementLocated(rentPeriodOption));
-        ((JavascriptExecutor)webDriver).executeScript("arguments[0].scrollIntoView();", rentPeriodElement);
+        ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", rentPeriodElement);
         //кликаем на нужный период
         rentPeriodElement.click();
         //Выбираем чек-бокс
@@ -108,6 +108,7 @@ public class OrderPage {
 
          */
     }
+
     public void clickOrderButton() {
         //нажимаем Заказать
         webDriver.findElement(orderButton).click();
@@ -116,7 +117,8 @@ public class OrderPage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(orderConfirmButton));
         assertTrue("Поп-ап с подтверждением заказа не появился", webDriver.findElement(orderConfirmButton).isDisplayed());
     }
-    public void clickConfirmButton(){
+
+    public void clickConfirmButton() {
         //нажимаем на кнопку подтверждения заказа
         webDriver.findElement(orderConfirmButton).click();
         WebDriverWait wait = new WebDriverWait(webDriver, 3);

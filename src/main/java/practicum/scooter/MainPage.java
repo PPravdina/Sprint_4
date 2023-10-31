@@ -1,10 +1,11 @@
 package practicum.scooter;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import static org.junit.Assert.assertTrue;
 
 public class MainPage {
     public static final String URL = "https://qa-scooter.praktikum-services.ru/";
@@ -24,20 +25,23 @@ public class MainPage {
         this.webDriver = webDriver;
         orderPage = new OrderPage(webDriver);
     }
+
     public MainPage open() {
         webDriver.get(URL);
         return this;
     }
+
     //скролл до блока с вопросами
-    public MainPage scrollToBlock(){
+    public MainPage scrollToBlock() {
         WebElement blockElement = webDriver.findElement(accordion);
-        ((JavascriptExecutor)webDriver).executeScript("arguments[0].scrollIntoView();", blockElement);
+        ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", blockElement);
         return this;
     }
+
     //найти конкретный вопрос,кликнуть на него и получить ответ
     public String findQuestionClickAndGetAnswer(String questionText) {
         //Найти вопрос
-        By question = By.xpath(".//div[@class='accordion__button' and text()='"+ questionText +"']");
+        By question = By.xpath(".//div[@class='accordion__button' and text()='" + questionText + "']");
         WebElement questionElement = webDriver.findElement(question);
         //кликнуть на вопрос
         questionElement.click();
@@ -48,7 +52,7 @@ public class MainPage {
         String idNumStr = attribute.substring(idQuestion);
         String attributAnswer = "accordion__panel" + idNumStr;
         //составить xpath для конкретного ответа
-        String answerXPath = ".//div[@id='"+attributAnswer+"']/p";
+        String answerXPath = ".//div[@id='" + attributAnswer + "']/p";
         By answer = By.xpath(answerXPath);
         //найти ответ и достать его текст
         WebDriverWait wait = new WebDriverWait(webDriver, 3);
@@ -56,7 +60,8 @@ public class MainPage {
         System.out.println(answerElement.getText());
         return answerElement.getText();
     }
-    public void cookie(){
+
+    public void cookie() {
         //кликнули на куки
         WebElement cookieButton = webDriver.findElement(By.id("rcc-confirm-button"));
         if (cookieButton.isDisplayed()) {
@@ -65,13 +70,14 @@ public class MainPage {
     }
 
     //Кликнуть на Заказать в хэдере
-    public void clickOrderHeader(){
+    public void clickOrderHeader() {
         webDriver.findElement(orderHeader).click();
         new WebDriverWait(webDriver, 3)
                 .until(ExpectedConditions.visibilityOfElementLocated(formOrder));
     }
+
     //кликнуть вторую кнопку заказать
-    public void clickOrderMiddle(){
+    public void clickOrderMiddle() {
         WebElement orderMiddleElement = webDriver.findElement(orderMiddle);
         // Прокручиваем к этому элементу
         ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView(true);", orderMiddleElement);

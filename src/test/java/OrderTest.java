@@ -1,24 +1,12 @@
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import practicum.scooter.MainPage;
-import practicum.scooter.OrderPage;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-import static org.junit.Assert.assertEquals;
-
 @RunWith(Parameterized.class)
-public class OrderTest {
-    private WebDriver webDriver;
-    private MainPage mainPage;
-    private OrderPage orderPage;
+public class OrderTest extends BaseTest {
     private final String name;
     private final String lastname;
     private final String address;
@@ -49,18 +37,6 @@ public class OrderTest {
         });
     }
 
-    @Before
-    public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\bin\\chromedriver.exe");
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
-        webDriver = new ChromeDriver(options);
-        webDriver.manage().timeouts().implicitlyWait(3, java.util.concurrent.TimeUnit.SECONDS);
-        mainPage = new MainPage(webDriver);
-        orderPage = new OrderPage(webDriver);
-        mainPage.open();
-    }
-
     @Test
     public void orderTest1() {
         mainPage.cookie();
@@ -82,10 +58,5 @@ public class OrderTest {
         orderPage.clickOrderButton();
         orderPage.clickConfirmButton();
 
-    }
-
-    @After
-    public void tearDown() {
-        webDriver.quit();
     }
 }
